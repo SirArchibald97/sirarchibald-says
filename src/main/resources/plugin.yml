@@ -1,0 +1,18 @@
+main: dev.sirarchibald.Main
+name: SirArchibaldSays
+description: A custom made "Simon Says" minigame!
+version: 0.1.1
+api-version: 1.19
+
+commands:
+  create:
+    description: Create a new game
+    usage: /create
+  join:
+    description: Join a game
+    usage: /join
+  start:
+    description: Starts a game
+    usage: /start
+  db:
+    description: Gets your rank
