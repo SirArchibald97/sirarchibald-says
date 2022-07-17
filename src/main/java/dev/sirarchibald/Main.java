@@ -50,11 +50,7 @@ public class Main extends JavaPlugin {
 
     private DataSource initMySQLDataSource() throws SQLException {
         MysqlDataSource dataSource = new MysqlConnectionPoolDataSource();
-        dataSource.setServerName("135.181.250.92");
-        dataSource.setPortNumber(3306);
-        dataSource.setDatabaseName("archibaldmc");
-        dataSource.setUser("archie");
-        dataSource.setPassword("Xellence_123");
+        // get credentials from config
 
         testDataSource(dataSource);
         this.getLogger().info("Connected to database!");
