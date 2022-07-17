@@ -1,5 +1,7 @@
 package dev.sirarchibald;
 
+import dev.sirarchibald.minigames.ButtonMinigame;
+import dev.sirarchibald.minigames.ButtonMinigameEvents;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -38,9 +40,20 @@ public class Game {
     }
 
     public void gameTimer(Game game) {
-        Minigame nextMinigame = plugin.getGameManager().getRandomMinigame(minigamesPlayed);
-        addPlayedMinigame(nextMinigame);
-        //nextMinigame.roundCountdown(plugin, game);
-        nextMinigame.runMinigame(plugin, game);
+        while (minigamesPlayed.size() < 10) {
+            Minigame nextMinigame = plugin.getGameManager().getRandomMinigame(minigamesPlayed);
+            addPlayedMinigame(nextMinigame);
+            //nextMinigame.roundCountdown(plugin, game);
+            nextMinigame.runMinigame(plugin, game);
+        }
+        for (GamePlayer gamePlayer : game.getPlayers()) {
+            gamePlayer.getPlayer().teleport(Util.getSpawnLocation());
+        }
+    }
+
+    public void clearGame() {
+        players.clear();
+        minigamesPlayed.clear();
+        scores.clear();
     }
 }

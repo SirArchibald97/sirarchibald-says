@@ -18,15 +18,14 @@ import java.util.UUID;
 
 public class ButtonMinigame extends Minigame implements Listener {
     private final Main plugin;
-    private final HashMap<UUID, Integer> roundScores = new HashMap<>();
-    private final int gameDuration = 10;
+    private HashMap<UUID, Integer> roundScores = new HashMap<>();
 
-    public ButtonMinigame(Main plugin) { super("Buttons", "Click the buttons!"); this.plugin = plugin; }
-
-    public int getGameDuration() { return gameDuration; }
+    public ButtonMinigame(Main plugin) { super("Buttons"); this.plugin = plugin; }
 
     @Override
     public void runMinigame(Main main, Game game) {
+        plugin.getServer().getPluginManager().registerEvents(new ButtonMinigameEvents(plugin, game, this), plugin);
+
         World world = game.getPlayers().stream().findFirst().orElseThrow().getPlayer().getWorld();
         Block arenaCorner1 = world.getBlockAt(Util.getArenaCorner1());
         Block arenaCorner2 = world.getBlockAt(Util.getArenaCorner2());
@@ -41,6 +40,7 @@ public class ButtonMinigame extends Minigame implements Listener {
             }
         }
 
+        int gameDuration = 10;
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             resetArena();
             for (GamePlayer gamePlayer : game.getPlayers()) {
@@ -51,27 +51,6 @@ public class ButtonMinigame extends Minigame implements Listener {
         }, gameDuration * 20);
     }
 
-    @Override
-    public HashMap<UUID, Integer> getMinigameScore() { return roundScores; }
-
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        Block blockClicked = event.getClickedBlock();
-        if (blockClicked == null) return;
-
-        if (blockClicked.getType() == Material.STONE_BUTTON && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            Player player = event.getPlayer();
-
-            if (roundScores.get(player.getUniqueId()) == null) {
-                roundScores.put(player.getUniqueId(), 1);
-            } else {
-                roundScores.replace(player.getUniqueId(), roundScores.get(player.getUniqueId()) + 1);
-            }
-            System.out.println(roundScores);
-
-            Bukkit.getScheduler().runTaskLater(plugin, () -> { blockClicked.setType(Material.AIR); }, 1);
-            player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BANJO, 10, 1);
-            player.sendMessage(Util.format("&a+1 Point"));
-        }
-    }
+    public HashMap<UUID, Integer> getMinigameScores() { return roundScores; }
+    public void setMinigameScores(HashMap<UUID, Integer> scores) { roundScores = scores; }
 }

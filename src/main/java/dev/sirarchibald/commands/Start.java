@@ -29,8 +29,9 @@ public class Start implements CommandExecutor {
                 playerInGame.getPlayer().sendMessage(Util.format("&l&cGAME STARTING!"));
             }
             game.gameTimer(game);
+            game.clearGame();
+            plugin.getGameManager().endGame(game);
         }
-
         return true;
     }
 }

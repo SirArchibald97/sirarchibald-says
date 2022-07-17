@@ -13,13 +13,13 @@ import java.util.UUID;
 public abstract class Minigame {
 
     private final String name;
-    public Minigame(String name, String task) { this.name = name; }
+    public Minigame(String name) { this.name = name; }
 
     public abstract void runMinigame(Main main, Game game);
-    public abstract HashMap<UUID, Integer> getMinigameScore();
+    public abstract HashMap<UUID, Integer> getMinigameScores();
+    public abstract void setMinigameScores(HashMap<UUID, Integer> scores);
 
     public String getName() { return name; }
-    public abstract int getGameDuration();
 
     public void roundCountdown(Main main, Game game) {
         for (int i = 5; i > 0; i--) {

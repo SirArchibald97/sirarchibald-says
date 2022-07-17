@@ -25,6 +25,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         super.onEnable();
         this.gameManager = new GameManager(this);
+        this.saveDefaultConfig();
 
         Objects.requireNonNull(this.getCommand("create")).setExecutor(new Create(this));
         Objects.requireNonNull(this.getCommand("join")).setExecutor(new Join(this));
@@ -50,7 +51,10 @@ public class Main extends JavaPlugin {
 
     private DataSource initMySQLDataSource() throws SQLException {
         MysqlDataSource dataSource = new MysqlConnectionPoolDataSource();
-        // get credentials from config
+        dataSource.setServerName(this.getConfig().getString("database.host"));
+        dataSource.setDatabaseName(this.getConfig().getString("database.name"));
+        dataSource.setUser(this.getConfig().getString("database.user"));
+        dataSource.setPassword(this.getConfig().getString("database.password"));
 
         testDataSource(dataSource);
         this.getLogger().info("Connected to database!");

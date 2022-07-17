@@ -40,6 +40,7 @@ public class GameManager {
     public Minigame getRandomMinigame(ArrayList<Minigame> playedMinigames) {
         List<Minigame> remainingMinigames = Arrays.stream(minigames).filter(mg -> !playedMinigames.contains(mg)).toList();
         Collections.shuffle(remainingMinigames);
+        System.out.println(remainingMinigames);
         return remainingMinigames.stream().findFirst().orElseThrow();
     }
 }
